@@ -113,6 +113,13 @@
    "w": 768,
    "h": 192
   },
+  "tiegui_walk": {
+   "src": "assets/chara/tiegui_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
+   "h": 192
+  },
   "muxiaokui_idle": {
    "src": "assets/chara/muxiaokuibattler.png",
    "cols": 4,
@@ -155,6 +162,13 @@
    "w": 768,
    "h": 192
   },
+  "shanzei1_walk": {
+   "src": "assets/chara/shanzei1_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
+   "h": 192
+  },
   "shanzei2_idle": {
    "src": "assets/chara/shanzeibattle2.png",
    "cols": 4,
@@ -176,6 +190,13 @@
    "w": 768,
    "h": 192
   },
+  "shanzei2_walk": {
+   "src": "assets/chara/shanzei2_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
+   "h": 192
+  },
   "yingmei_idle": {
    "src": "assets/chara/yingmeibattler.png",
    "cols": 4,
@@ -195,6 +216,13 @@
    "cols": 4,
    "rows": 1,
    "w": 768,
+   "h": 192
+  },
+  "yingmei_walk": {
+   "src": "assets/chara/yingmei_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
    "h": 192
   },
   "slashguichai_idle": {
@@ -225,6 +253,13 @@
    "w": 768,
    "h": 192
   },
+  "slashguichai_walk": {
+   "src": "assets/chara/slashguichai_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
+   "h": 192
+  },
   "baijiankeb_idle": {
    "src": "assets/chara/baijiankeb.png",
    "cols": 4,
@@ -251,6 +286,13 @@
    "cols": 4,
    "rows": 1,
    "w": 768,
+   "h": 192
+  },
+  "baijiankeb_walk": {
+   "src": "assets/chara/baijiankeb_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
    "h": 192
   },
   "blader_idle": {
@@ -295,6 +337,13 @@
    "w": 768,
    "h": 192
   },
+  "triyingmei_walk": {
+   "src": "assets/chara/triyingmei_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
+   "h": 192
+  },
   "xingmang_idle": {
    "src": "assets/chara/xingmangbattler.png",
    "cols": 4,
@@ -316,6 +365,13 @@
    "w": 768,
    "h": 192
   },
+  "xingmang_walk": {
+   "src": "assets/chara/xingmang_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
+   "h": 192
+  },
   "zuoshang_idle": {
    "src": "assets/chara/zuoshangbattler.png",
    "cols": 4,
@@ -335,6 +391,13 @@
    "cols": 4,
    "rows": 1,
    "w": 768,
+   "h": 192
+  },
+  "zuoshang_walk": {
+   "src": "assets/chara/zuoshang_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
    "h": 192
   },
   "yancui_idle": {
@@ -377,6 +440,13 @@
    "cols": 4,
    "rows": 1,
    "w": 768,
+   "h": 192
+  },
+  "zangwudi_walk": {
+   "src": "assets/chara/zangwudi_walk.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
    "h": 192
   },
   "zangwudi_skill_idle": {
