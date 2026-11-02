@@ -10,6 +10,7 @@
      只想改某一个敌人/某一招时，直接改它自己的 windup/active/recover/fps，这里只做「一键调手感」。 */
   const TEMPO = .85;
 
+
   /* 敌人档案
      攻击动画（atkAnim）：素材统一取自 assets/fx 下的动作条
      （一条 = 角色动作帧 + 挥击特效帧一体的序列，5 列 × N 行）：
@@ -165,7 +166,7 @@
       range: 152, dmg: 15, windup: .4, active: .1, recover: .33, cd: .36,
       body: 96, kbRes: .9, mpGain: 7,
       hit: { w: 168, h: 140, ox: 84, oy: 94 },
-      sheets: { idle: 'baijiankeb_idle', walk: 'baijiankeb_walk', hurt: 'baijiankeb_atk', miss: 'baijiankeb_miss' },
+      sheets: { idle: 'baijianke_idle', walk: 'baijianke_walk', hurt: 'baijianke_atk', miss: 'baijianke_miss' },
       idleFps: 6.4, walkFps: 8.3, atkFps: 18,
       atkAnim: { sheet: 'e_baijianke_action', to: 7, fps: 10, fxFrom: 10, fxTo: 19 },
       fxScale: 1.4,
@@ -819,7 +820,6 @@
       const stun = (atk.stun || .3) * this.kbRes;
       this.setState('hurt', stun);
       this.play('hurt', true);
-      this.squashTo(.9, .1);
       // 精英抵抗击退
       if (this.kbRes < .35) this.vx *= .5;
       // 每次被击中都要溅血（溅血 / 火花 / 伤害数字 / 顿帧 / 震屏 / 音效）

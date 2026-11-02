@@ -260,36 +260,36 @@
    "w": 1536,
    "h": 192
   },
-  "baijiankeb_idle": {
-   "src": "assets/chara/baijiankeb.png",
+  "baijianke_idle": {
+   "src": "assets/chara/baijianke.png",
    "cols": 4,
    "rows": 1,
    "w": 768,
    "h": 192
   },
-  "baijiankeb_atk": {
-   "src": "assets/chara/baijiankeb_attackone.png",
+  "baijianke_atk": {
+   "src": "assets/chara/baijianke_attackone.png",
    "cols": 4,
    "rows": 1,
    "w": 768,
    "h": 192
   },
-  "baijiankeb_atk2": {
-   "src": "assets/chara/baijiankeb_attacktwo.png",
+  "baijianke_atk2": {
+   "src": "assets/chara/baijianke_attacktwo.png",
    "cols": 4,
    "rows": 1,
    "w": 768,
    "h": 192
   },
-  "baijiankeb_miss": {
-   "src": "assets/chara/baijiankeb_miss.png",
+  "baijianke_miss": {
+   "src": "assets/chara/baijianke_miss.png",
    "cols": 4,
    "rows": 1,
    "w": 768,
    "h": 192
   },
-  "baijiankeb_walk": {
-   "src": "assets/chara/baijiankeb_walk.png",
+  "baijianke_walk": {
+   "src": "assets/chara/baijianke_walk.png",
    "cols": 8,
    "rows": 1,
    "w": 1536,
