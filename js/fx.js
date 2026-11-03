@@ -303,9 +303,8 @@
     shakeX: 0, shakeY: 0,
     flash: 0, flashColor: '#fff',
     hitstop: 0,
-    bloodMist: 0,
 
-    clear() { this.list.length = 0; this.decals.length = 0; this.shakeAmt = 0; this.shakeX = this.shakeY = 0; this.flash = 0; this.hitstop = 0; this.bloodMist = 0; },
+    clear() { this.list.length = 0; this.decals.length = 0; this.shakeAmt = 0; this.shakeX = this.shakeY = 0; this.flash = 0; this.hitstop = 0; },
 
     add(o) {
       // 软上限：多段连击时血点可能暴增，超限先丢最老的血点（不影响角色/精灵特效）
@@ -517,7 +516,6 @@
         if (this.shakeT <= 0) { this.shakeAmt = 0; this.shakeX = this.shakeY = 0; }
       } else { this.shakeX = this.shakeY = 0; }
       this.flash = Math.max(0, this.flash - dt * 3.6);
-      this.bloodMist = Math.max(0, this.bloodMist - dt * .34);
     },
 
     /** 按 z 排序绘制 */

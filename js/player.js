@@ -621,7 +621,6 @@
         Fx.shake(22, .8);
         Fx.screenFlash(.85, '#ffffff');
         Fx.ring(this.x + this.face * 140, this.y - 118, 90, 'rgba(255,60,60,.9)');
-        Fx.bloodMist = 1.4;
         RB.Post.speedLines = 1.6;
         RB.Post.chroma = 2;
         Snd.play('hitbig', { vol: 1 });
@@ -685,7 +684,6 @@
         // 终结一击
         Fx.screenFlash(1, '#ffffff');
         Fx.shake(30, 1.1);
-        Fx.bloodMist = 1.8;
         Fx.ring(this.x, this.y - 120, 160, 'rgba(255,70,70,1)');
         RB.Post.speedLines = 2;
         Snd.play('explode', { vol: 1 });
