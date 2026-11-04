@@ -94,6 +94,8 @@
       this.guardHold = 0;
       this.parryWindow = 0;
       this.guardBreakT = 0;
+      this._guardIntro = 0;      // 格挡撑盾起手 / 挡下后震盾的表演段剩余时间
+      this._parryPoseT = 0;      // 弹反反击动作剩余时间（期间松手也不打断）
       this.airActions = 0;
       this.ultraCharge = 0;
       this.deadT = 0;
@@ -120,7 +122,17 @@
       this.clip('dash', 'skill_focusslash', [34, 35, 36, 37], 10, { loop: false });
       this.clip('runSlow', 'hero_walk', RB.AnimUtil.row(8, 2, 4), 8, { loop: true });
       this.clip('stand', 'hero_walk2', RB.AnimUtil.row(8, 2, 4), 5, { loop: true });
-      this.clip('guard', 'hero_guard', [0, 1, 2, 3], 7, { loop: true });
+      // 格挡：hero_guard 只有 4 帧近乎静止的黑弧护盾，素材上限就在这里。
+      // 把 4 帧用满，让「撑盾 → 盾面呼吸 → 被击震盾」各有自己的节奏：
+      //   guardStart 0→3 把盾撑开（0.36s）
+      //   guard      从最展开的 3 起做完整开合循环，不再停在一帧上发呆
+      //   guardBrace 挡下一击时盾面急速收一下再撑回（0.23s），配合沉身 / 击退
+      this.clip('guard', 'hero_guard', [3, 2, 1, 0, 1, 2], 8, { loop: true });
+      this.clip('guardStart', 'hero_guard', [0, 0, 1, 2, 3], 14, { loop: false });
+      this.clip('guardBrace', 'hero_guard', [3, 2, 1, 2, 3], 22, { loop: false });
+      // 弹反只播横扫：againstcar 15~19 是「低伏大红弧横扫 → 起身收刃」，脚一直在地上。
+      // 20 之后角色会腾空跃起、斗篷大张（21~24），那段不要，停在 19 就接回格挡。
+      this.clip('parrySwipe', 'skill_againstcar', R(15, 19), 22, { loop: false });
       // 受击：chara 里的 soulbattler_attackone.png 才是「受击」姿势（下蹲脱刀），不是攻击图
       this.clip('hurt', 'hero_atk', [0, 1, 2, 3], 14, { loop: false, hold: 3 });
       this.clip('miss', 'hero_miss', [0, 1, 2, 3], 16, { loop: false });
@@ -439,17 +451,37 @@
     /* ---------------- 格挡 ---------------- */
     _enterGuard() {
       this.setState('guard');
-      this.play('guard', true);
+      this.play('guardStart', true);
+      this._guardIntro = this.clips.guardStart.duration;   // 撑盾 0→3 后接循环
+      this._parryPoseT = 0;
       this.vx = 0;
       this.parryWindow = .0;
+      this.squashTo(.95, .22);       // 沉身架盾：本体形变，不叠特效层
       Snd.play('guard', { vol: .25 });
     }
     _guardState(dt, inp) {
       this.guardHold = this.stateT;
       this.parryWindow = Math.max(0, .16 - this.stateT);   // 开场 0.16s 内为弹反窗口
       this.vx = U.approach(this.vx, 0, 2600 * dt);
+      // 横扫播完前松开 L 也不能让 idle 覆盖它；攻击 / 冲刺仍可随时取消。
+      // 播完后 L 还按着就直接 play('guard') 续到格挡，松手则回 idle。
+      if (this._parryPoseT > 0) {
+        this._parryPoseT -= dt;
+        if (this._parryPoseT > 0) {
+          if (this._consume('light')) { this._parryPoseT = 0; return this._startAttack('a1'); }
+          if (this._consume('dash') && this.dashCD <= 0) { this._parryPoseT = 0; return this._startDash(-this.face); }
+          return;
+        }
+        this._parryPoseT = 0;
+        if (!inp.down.guard) { this._toNeutral(); return; }
+        this.play('guard', true);
+      } else if (this._guardIntro > 0) {
+        // 只切换视觉动画，不动格挡判定：撑盾起手 / 震盾播完回防御循环
+        this._guardIntro -= dt;
+        if (this._guardIntro <= 0) { this._guardIntro = 0; this.play('guard', true); }
+      }
       if (!inp.down.guard) { this._toNeutral(); return; }
-      // 格挡中可被击中 → 由 takeHit 处理（覆写 onHurt）
+      // 格挡中可被击中 → 由 tryGuard 处理
       if (this._consume('light')) return this._startAttack('a1');
       if (this._consume('dash') && this.dashCD <= 0) return this._startDash(-this.face);
     }
@@ -471,6 +503,13 @@
         this.guardHp = (this.guardHp === undefined ? 100 : this.guardHp) - atk.dmg * .55;
         this.vx = -this.face * atk.kb * .28;
         this.flashT = .06;
+        // 挡下的一瞬由本体演出：盾面顶住震一下 + 沉身，不额外盖护罩特效。
+        // 横扫演出中再度被命中时只结算减伤，不切动画，避免把横扫打断。
+        if (this._parryPoseT <= 0) {
+          this.play('guardBrace', true);
+          this._guardIntro = this.clips.guardBrace.duration;
+        }
+        this.squashTo(.92, .14);
         Fx.sparks(this.x + this.face * 40, this.y - 120, 12, -this.face);
         Fx.stop(4); Fx.shake(4, .2);
         Fx.text(this.x, this.y - 160, '格挡', { color: '#9fd8ff', size: 24, life: .6 });
@@ -491,14 +530,17 @@
     _parrySuccess(atk) {
       const foe = atk.owner;
       this.mp = Math.min(this.maxMp, this.mp + 22);
+      // 弹反 = 一段横扫 + 撞击反馈，不新增状态、不改 parryWindow / 硬直 / 无敌。
+      // 顿帧保持 4 帧（只压约 60ms），避免特效先炸完动作才开始。
+      this._guardIntro = 0;
+      this._parryPoseT = this.clips.parrySwipe.duration + .08;   // 5 帧 @22fps ≈ 0.23s
+      this.play('parrySwipe', true);
       Snd.play('parry', { vol: 1 });
-      Fx.stop(11);
-      Fx.shake(8, .4);
-      Fx.screenFlash(.42, '#ffffff');
-      Fx.sparks(this.x + this.face * 46, this.y - 120, 26, -this.face);
-      Fx.ring(this.x + this.face * 44, this.y - 120, 30, 'rgba(255,240,220,.95)');
-      Fx.text(this.x, this.y - 176, '弹 反', { color: '#ffffff', size: 40, life: 1, scalePop: 2 });
-      RB.Post.chroma = 1;
+      Fx.stop(4);
+      Fx.shake(6, .3);
+      Fx.screenFlash(.1, '#ffffff');
+      Fx.sparks(this.x + this.face * 46, this.y - 120, 12, -this.face);
+      Fx.text(this.x, this.y - 176, '弹 反', { color: '#ffffff', size: 34, life: .9, scalePop: 1.6 });
       RB.bus.emit('parry');
       if (foe && typeof foe.onParried === 'function') foe.onParried(this);
     }
@@ -792,7 +834,6 @@
     }
 
     draw(ctx) {
-      // 冲刺残影额外加强
       super.draw(ctx);
     }
   }
