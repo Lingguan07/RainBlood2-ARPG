@@ -324,7 +324,7 @@
       if (this.onGround) {
         if (Math.abs(this.vx) > 40) {
           this.play('run');
-          this.anim.speed = U.clamp(Math.abs(this.vx) / 300, .55, 1.35);
+          this.anim.setSpeed(U.clamp(Math.abs(this.vx) / 300, .55, 1.35));
           this.walkPhase += dt * Math.abs(this.vx) * .012;
           if (this._stepAcc === undefined) this._stepAcc = 0;
           this._stepAcc += Math.abs(this.vx) * dt;
@@ -402,7 +402,7 @@
       this.vx = dir * 1050;
       this.invuln = Math.max(this.invuln, .16);
       this.play('dash', true);
-      this.anim.speed = 1.35;
+      this.anim.setSpeed(1.35);
       // 穿身判定：一块跟着本体走的判定框，整个冲刺期间有效，穿过的敌人各吃一次
       // （hitSet 保证同一敌人不会被重复判定；从背后穿过时 takeHit 会自动算背刺 1.5 倍）
       this.makeHit({
@@ -418,7 +418,7 @@
     }
     _dashState(dt, inp) {
       this.vx = U.approach(this.vx, 0, 2400 * dt);
-      this.anim.speed = 1.35;
+      this.anim.setSpeed(1.35);
       // 冲刺取消
       if (this.stateT > .08 && this._consume('light')) return this._startAttack('adash');
       if (this.stateT > .1 && this._consume('jump')) { this._jump(inp); return; }

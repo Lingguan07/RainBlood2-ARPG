@@ -58,7 +58,10 @@
 
   /** 播放实例：挂到实体上 */
   class Anim {
-    constructor() { this.clip = null; this.t = 0; this.idx = 0; this.done = true; this.speed = 1; }
+    #speed = 1;
+    constructor() { this.clip = null; this.t = 0; this.idx = 0; this.done = true; }
+    get speed() { return this.#speed; }
+    setSpeed(v) { this.#speed = v; }
     play(clip, restart) {
       if (!clip) return;
       if (this.clip === clip && !restart && !this.done) return;
@@ -68,7 +71,7 @@
     update(dt) {
       const c = this.clip;
       if (!c || this.done) return;
-      this.t += dt * this.speed;
+      this.t += dt * this.#speed;
       const step = 1 / c.fps;
       let guard = 0;
       while (this.t >= step && guard++ < 8) {

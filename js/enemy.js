@@ -506,9 +506,9 @@
       // 非走路动画一律复位为 1——this.play(name) 不会重置 anim.speed，若不复位，走路时留下的倍率会残留到攻击/受击动作条上，
       // 而判定是按秒计的（aiT >= A.windup），动画一变速就会和判定脱节。
       if (this.curClipName === 'walk') {
-        this.anim.speed = U.clamp(Math.abs(this.vx) / 170, .6, 1.5);
+        this.anim.setSpeed(U.clamp(Math.abs(this.vx) / 170, .6, 1.5));
       } else {
-        this.anim.speed = 1;
+        this.anim.setSpeed(1);
       }
     }
 

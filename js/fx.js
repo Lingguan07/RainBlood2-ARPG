@@ -49,7 +49,7 @@
       if (!this._started) this.start();
       if (this.dead) return;
       this._t += dt;
-      this.anim.speed = this.speed;
+      this.anim.setSpeed(this.speed);
       this.anim.update(dt);
       if (this.follow) { this.x = this.follow.x + this.offX * this.follow.face; this.y = this.follow.y + this.offY; }
       if (this.drift) { this.x += this.vx * dt; this.y += this.vy * dt; }
