@@ -463,27 +463,49 @@
       this.guardHold = this.stateT;
       this.parryWindow = Math.max(0, .16 - this.stateT);   // 开场 0.16s 内为弹反窗口
       this.vx = U.approach(this.vx, 0, 2600 * dt);
-      // 横扫播完前松开 L 也不能让 idle 覆盖它；攻击 / 冲刺仍可随时取消。
-      // 播完后 L 还按着就直接 play('guard') 续到格挡，松手则回 idle。
+
       if (this._parryPoseT > 0) {
         this._parryPoseT -= dt;
         if (this._parryPoseT > 0) {
-          if (this._consume('light')) { this._parryPoseT = 0; return this._startAttack('a1'); }
-          if (this._consume('dash') && this.dashCD <= 0) { this._parryPoseT = 0; return this._startDash(-this.face); }
-          return;
+          // 横扫还没播完：松手先不算（否则 idle 会盖掉横扫），只有攻击 / 冲刺能取消
+          if (this._consume('light')) {
+            this._parryPoseT = 0;
+            this._startAttack('a1');
+          } else if (this._consume('dash') && this.dashCD <= 0) {
+            this._parryPoseT = 0;
+            this._startDash(-this.face);
+          } else {
+            // 没有取消输入，继续播横扫
+          }
+          return;   // 横扫期间不结算松手，等播完那一帧再判
+        } else {
+          // 横扫播完：先把动画接回防御循环，松手留到下面统一判
+          this._parryPoseT = 0;
+          this.play('guard', true);
         }
-        this._parryPoseT = 0;
-        if (!inp.down.guard) { this._toNeutral(); return; }
-        this.play('guard', true);
       } else if (this._guardIntro > 0) {
         // 只切换视觉动画，不动格挡判定：撑盾起手 / 震盾播完回防御循环
         this._guardIntro -= dt;
-        if (this._guardIntro <= 0) { this._guardIntro = 0; this.play('guard', true); }
+        if (this._guardIntro <= 0) {
+          this._guardIntro = 0;
+          this.play('guard', true);
+        } else {
+          // 起手还没播完，保持当前动画
+        }
+      } else {
+        // 当前没有演出，保持当前动画
       }
-      if (!inp.down.guard) { this._toNeutral(); return; }
-      // 格挡中可被击中 → 由 tryGuard 处理
-      if (this._consume('light')) return this._startAttack('a1');
-      if (this._consume('dash') && this.dashCD <= 0) return this._startDash(-this.face);
+
+      // 松手只在这里判一次
+      if (!inp.down.guard) {
+        this._toNeutral();
+      } else if (this._consume('light')) {
+        this._startAttack('a1');
+      } else if (this._consume('dash') && this.dashCD <= 0) {
+        this._startDash(-this.face);
+      } else {
+        // L 还按着，继续格挡
+      }
     }
 
     /** 格挡结算：返回 true 表示已处理，不再走普通受击 */
