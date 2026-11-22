@@ -119,8 +119,8 @@
       range: 196, dmg: 16, windup: .56, active: .13, recover: .46, cd: .5,
       body: 100, kbRes: .7, mpGain: 7,
       hit: { w: 210, h: 128, ox: 116, oy: 96 },
-      sheets: { idle: 'muxiaokui_idle', hurt: 'muxiaokui_atk', miss: 'muxiaokui_miss' },
-      idleFps: 5.5, atkFps: 15,
+      sheets: { idle: 'muxiaokui_idle', walk: 'muxiaokui_walk1', hurt: 'muxiaokui_atk', miss: 'muxiaokui_miss' },
+      idleFps: 5.5, walkFps: 9.8, atkFps: 15,
       // 该条 8 帧起夹着大量近空帧与纯特效帧（45 帧起还是全黑底），只取 0~7 的角色动作
       atkAnim: { sheet: 'e_muxiaokuiaction', to: 7, fps: 7 },
       fxScale: 1.5,

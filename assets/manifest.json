@@ -127,6 +127,13 @@
    "w": 768,
    "h": 192
   },
+  "muxiaokui_walk1": {
+   "src": "assets/chara/muxiaokui_walk1.png",
+   "cols": 8,
+   "rows": 1,
+   "w": 1536,
+   "h": 192
+  },
   "muxiaokui_atk": {
    "src": "assets/chara/muxiaokuibattler_attackone.png",
    "cols": 4,
