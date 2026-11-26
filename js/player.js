@@ -452,7 +452,7 @@
     _enterGuard() {
       this.setState('guard');
       this.play('guardStart', true);
-      this._guardIntro = this.clips.guardStart.duration;   // 撑盾 0→3 后接循环
+      this._guardIntro = this.clips.guardStart.duration;   // 撑盾起手动画时长：播完后切回 guard 防御循环
       this._parryPoseT = 0;
       this.vx = 0;
       this.parryWindow = .0;
@@ -496,7 +496,7 @@
         // 当前没有演出，保持当前动画
       }
 
-      // 松手只在这里判一次
+      // 松手
       if (!inp.down.guard) {
         this._toNeutral();
       } else if (this._consume('light')) {
@@ -525,13 +525,14 @@
         this.guardHp = (this.guardHp === undefined ? 100 : this.guardHp) - atk.dmg * .55;
         this.vx = -this.face * atk.kb * .28;
         this.flashT = .06;
-        // 挡下的一瞬由本体演出：盾面顶住震一下 + 沉身，不额外盖护罩特效。
-        // 横扫演出中再度被命中时只结算减伤，不切动画，避免把横扫打断。
+        // 格挡效果由本体演出：guardBrace盾面顶住震一下 + squashTo沉身
+        // 横扫演出中再度被命中时不切动画（只结算减伤），避免把横扫打断。
         if (this._parryPoseT <= 0) {
           this.play('guardBrace', true);
           this._guardIntro = this.clips.guardBrace.duration;
         }
         this.squashTo(.92, .14);
+        
         Fx.sparks(this.x + this.face * 40, this.y - 120, 12, -this.face);
         Fx.stop(4); Fx.shake(4, .2);
         Fx.text(this.x, this.y - 160, '格挡', { color: '#9fd8ff', size: 24, life: .6 });
@@ -555,7 +556,7 @@
       // 弹反 = 一段横扫 + 撞击反馈，不新增状态、不改 parryWindow / 硬直 / 无敌。
       // 顿帧保持 4 帧（只压约 60ms），避免特效先炸完动作才开始。
       this._guardIntro = 0;
-      this._parryPoseT = this.clips.parrySwipe.duration + .08;   // 5 帧 @22fps ≈ 0.23s
+      this._parryPoseT = this.clips.parrySwipe.duration + .08;   // 弹反成功，设置动画时长
       this.play('parrySwipe', true);
       Snd.play('parry', { vol: 1 });
       Fx.stop(4);
@@ -802,8 +803,13 @@
     }
     _simpleState(dt, inp, name, dur) {
       this.vx = U.approach(this.vx, 0, 2000 * dt);
-      if (this.stateT > .06 && this._consume('light')) return this._startAttack(this.onGround ? 'a1' : 'aair');
-      if (this.stateT >= dur) this._toNeutral();
+      if (this.stateT > .06 && this._consume('light')) {
+        this._startAttack(this.onGround ? 'a1' : 'aair');
+        return;
+      }
+      if (this.stateT >= dur) {
+        this._toNeutral();
+      }
     }
 
     _updateDead(dt) {
