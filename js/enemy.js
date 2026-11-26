@@ -10,6 +10,7 @@
      只想改某一个敌人/某一招时，直接改它自己的 windup/active/recover/fps，这里只做「一键调手感」。 */
   const TEMPO = .85;
 
+
   /* 敌人档案
      攻击动画（atkAnim）：素材统一取自 assets/fx 下的动作条
      （一条 = 角色动作帧 + 挥击特效帧一体的序列，5 列 × N 行）：
@@ -62,8 +63,8 @@
       range: 132, dmg: 20, windup: .62, active: .12, recover: .58, cd: .55,
       body: 118, kbRes: .62, mpGain: 7,
       hit: { w: 150, h: 150, ox: 76, oy: 96 },
-      sheets: { idle: 'tiegui_idle', hurt: 'tiegui_atk', miss: 'tiegui_miss' },
-      idleFps: 5, atkFps: 15,
+      sheets: { idle: 'tiegui_idle', walk: 'tiegui_walk', hurt: 'tiegui_atk', miss: 'tiegui_miss' },
+      idleFps: 5, walkFps: 11.1, atkFps: 15,
       fxScale: 1.5,
       shadow: 1.35,
       attacks: [
@@ -95,8 +96,8 @@
       range: 122, dmg: 13, windup: .42, active: .1, recover: .34, cd: .38,
       body: 96, kbRes: .95, mpGain: 6,
       hit: { w: 122, h: 132, ox: 62, oy: 88 },
-      sheets: { idle: 'shanzei1_idle', hurt: 'shanzei1_atk', miss: 'shanzei1_miss' },
-      idleFps: 6, atkFps: 17,
+      sheets: { idle: 'shanzei1_idle', walk: 'shanzei1_walk', hurt: 'shanzei1_atk', miss: 'shanzei1_miss' },
+      idleFps: 6, walkFps: 9.1, atkFps: 17,
       // 该条只有 0~6 帧有内容，7~9 为空帧（避免战斗中“消失”）
       atkAnim: { sheet: 'e_shanzeiaction', to: 6, fps: 8 },
       fxScale: 1.35,
@@ -107,8 +108,8 @@
       range: 132, dmg: 15, windup: .48, active: .11, recover: .4, cd: .42,
       body: 104, kbRes: .86, mpGain: 6,
       hit: { w: 132, h: 140, ox: 66, oy: 92 },
-      sheets: { idle: 'shanzei2_idle', hurt: 'shanzei2_atk', miss: 'shanzei2_miss' },
-      idleFps: 6, atkFps: 16,
+      sheets: { idle: 'shanzei2_idle', walk: 'shanzei2_walk', hurt: 'shanzei2_atk', miss: 'shanzei2_miss' },
+      idleFps: 6, walkFps: 10, atkFps: 16,
       atkAnim: { sheet: 'e_shanzeiaction2', to: 6, fps: 7, fxFrom: 7, fxTo: 9 },
       fxScale: 1.4,
       shadow: 1.0,
@@ -118,8 +119,8 @@
       range: 196, dmg: 16, windup: .56, active: .13, recover: .46, cd: .5,
       body: 100, kbRes: .7, mpGain: 7,
       hit: { w: 210, h: 128, ox: 116, oy: 96 },
-      sheets: { idle: 'muxiaokui_idle', hurt: 'muxiaokui_atk', miss: 'muxiaokui_miss' },
-      idleFps: 5.5, atkFps: 15,
+      sheets: { idle: 'muxiaokui_idle', walk: 'muxiaokui_walk1', hurt: 'muxiaokui_atk', miss: 'muxiaokui_miss' },
+      idleFps: 5.5, walkFps: 9.8, atkFps: 15,
       // 该条 8 帧起夹着大量近空帧与纯特效帧（45 帧起还是全黑底），只取 0~7 的角色动作
       atkAnim: { sheet: 'e_muxiaokuiaction', to: 7, fps: 7 },
       fxScale: 1.5,
@@ -130,8 +131,8 @@
       range: 118, dmg: 14, windup: .34, active: .09, recover: .3, cd: .34,
       body: 88, kbRes: 1.0, mpGain: 6,
       hit: { w: 128, h: 130, ox: 62, oy: 84 },
-      sheets: { idle: 'yingmei_idle', hurt: 'yingmei_atk', miss: 'yingmei_miss' },
-      idleFps: 7, atkFps: 20,
+      sheets: { idle: 'yingmei_idle', walk: 'yingmei_walk', hurt: 'yingmei_atk', miss: 'yingmei_miss' },
+      idleFps: 7, walkFps: 8.3, atkFps: 20,
       atkAnim: { sheet: 'e_yingmeiaction', to: 14, fps: 18 },
       fxScale: 1.35,
       shadow: .62, dash: true,
@@ -141,8 +142,8 @@
       range: 218, dmg: 26, windup: .72, active: .15, recover: .66, cd: .7,
       body: 160, kbRes: .5, mpGain: 10,
       hit: { w: 246, h: 200, ox: 128, oy: 130 },
-      sheets: { idle: 'slashguichai_idle', hurt: 'slashguichai_atk', miss: 'slashguichai_miss' },
-      idleFps: 4.6, atkFps: 13,
+      sheets: { idle: 'slashguichai_idle', walk: 'slashguichai_walk', hurt: 'slashguichai_atk', miss: 'slashguichai_miss' },
+      idleFps: 4.6, walkFps: 8.3, atkFps: 13,
       // 只有 5 帧角色动作（慢速重劈），帧率压低 → 挥砍正好落在判定帧上
       atkAnim: { sheet: 'e_slashguichaiaction', to: 4, fps: 7, fxFrom: 5, fxTo: 8 },
       fxScale: 2.0,
@@ -165,8 +166,8 @@
       range: 152, dmg: 15, windup: .4, active: .1, recover: .33, cd: .36,
       body: 96, kbRes: .9, mpGain: 7,
       hit: { w: 168, h: 140, ox: 84, oy: 94 },
-      sheets: { idle: 'baijiankeb_idle', hurt: 'baijiankeb_atk', miss: 'baijiankeb_miss' },
-      idleFps: 6.4, atkFps: 18,
+      sheets: { idle: 'baijianke_idle', walk: 'baijianke_walk', hurt: 'baijianke_atk', miss: 'baijianke_miss' },
+      idleFps: 6.4, walkFps: 8.3, atkFps: 18,
       atkAnim: { sheet: 'e_baijianke_action', to: 7, fps: 10, fxFrom: 10, fxTo: 19 },
       fxScale: 1.4,
       shadow: .9,
@@ -176,8 +177,8 @@
       range: 146, dmg: 16, windup: .38, active: .1, recover: .32, cd: .34,
       body: 98, kbRes: .92, mpGain: 7,
       hit: { w: 156, h: 148, ox: 78, oy: 100 },
-      sheets: { idle: 'xingmang_idle', hurt: 'xingmang_atk', miss: 'xingmang_miss' },
-      idleFps: 6.6, atkFps: 18,
+      sheets: { idle: 'xingmang_idle', walk: 'xingmang_walk', hurt: 'xingmang_atk', miss: 'xingmang_miss' },
+      idleFps: 6.6, walkFps: 8.3, atkFps: 18,
       // 反星刃整条都含角色动作帧；104~119 是“举刃→劈下→收势”的一段完整挥击
       atkAnim: { sheet: 'e_xingmang-fanxing-ren', from: 104, to: 119, fps: 20 },
       fxScale: 1.5,
@@ -188,8 +189,8 @@
       range: 126, dmg: 15, windup: .36, active: .1, recover: .32, cd: .36,
       body: 92, kbRes: .98, mpGain: 7,
       hit: { w: 136, h: 136, ox: 64, oy: 84 },
-      sheets: { idle: 'triyingmei_idle', hurt: 'triyingmei_atk', miss: 'triyingmei_miss' },
-      idleFps: 7, atkFps: 19,
+      sheets: { idle: 'triyingmei_idle', walk: 'triyingmei_walk', hurt: 'triyingmei_atk', miss: 'triyingmei_miss' },
+      idleFps: 7, walkFps: 8.3, atkFps: 19,
       atkAnim: { sheet: 'e_yingmeiaction', to: 14, fps: 17 },
       fxScale: 1.35,
       shadow: .66, dash: true,
@@ -199,8 +200,8 @@
       range: 168, dmg: 21, windup: .58, active: .12, recover: .5, cd: .55,
       body: 120, kbRes: .66, mpGain: 9,
       hit: { w: 184, h: 170, ox: 92, oy: 116 },
-      sheets: { idle: 'zuoshang_idle', hurt: 'zuoshang_atk', miss: 'zuoshang_miss' },
-      idleFps: 5, atkFps: 14,
+      sheets: { idle: 'zuoshang_idle', walk: 'zuoshang_walk', hurt: 'zuoshang_atk', miss: 'zuoshang_miss' },
+      idleFps: 5, walkFps: 5.6, atkFps: 14,
       // 拔刀 5 帧 + 整条金色斩击特效帧
       atkAnim: { sheet: 'e_shanggongji', to: 4, fps: 8, fxFrom: 5, fxTo: 34 },
       fxScale: 1.7,
@@ -212,8 +213,8 @@
       body: 230, kbRes: .12, mpGain: 14,
       hit: { w: 300, h: 320, ox: 148, oy: 175 },
       // 原 atk 指向的 zangwudi_skill 在 manifest 里不存在，改用基础形态的受击图
-      sheets: { idle: 'zangwudi_idle', hurt: 'zangwudi_atk', miss: 'zangwudi_miss' },
-      idleFps: 4.2, atkFps: 12,
+      sheets: { idle: 'zangwudi_idle', walk: 'zangwudi_walk', hurt: 'zangwudi_atk', miss: 'zangwudi_miss' },
+      idleFps: 4.2, walkFps: 8.3, atkFps: 12,
       // 29 帧之后是大片全黑底特效帧，特效只取 29~34
       atkAnim: { sheet: 'e_zangwudiaction', to: 28, fps: 19, fxFrom: 29, fxTo: 34 },
       fxScale: 2.8,
@@ -411,7 +412,8 @@
     _buildClips() {
       const S = this.T.sheets;
       this.clip('idle', S.idle, [0, 1, 2, 3], this.T.idleFps, { loop: true });
-      this.clip('walk', S.idle, [0, 1, 2, 3], this.T.idleFps * .8, { loop: true });
+      // 行走：frames 传 null，由 Clip.ensure 按图集实际格数自动展开
+      this.clip('walk', S.walk || S.idle, null, this.T.walkFps || this.T.idleFps * .8, { loop: true });
       this._buildAtkClips();
       this.clip('windup', S.idle, [0, 1, 0, 1], 9, { loop: true });
       // 受击（*_attackone.png）与硬直
@@ -504,9 +506,9 @@
       // 非走路动画一律复位为 1——this.play(name) 不会重置 anim.speed，若不复位，走路时留下的倍率会残留到攻击/受击动作条上，
       // 而判定是按秒计的（aiT >= A.windup），动画一变速就会和判定脱节。
       if (this.curClipName === 'walk') {
-        this.anim.speed = U.clamp(Math.abs(this.vx) / 170, .6, 1.5);
+        this.anim.setSpeed(U.clamp(Math.abs(this.vx) / 170, .6, 1.5));
       } else {
-        this.anim.speed = 1;
+        this.anim.setSpeed(1);
       }
     }
 
@@ -818,7 +820,6 @@
       const stun = (atk.stun || .3) * this.kbRes;
       this.setState('hurt', stun);
       this.play('hurt', true);
-      this.squashTo(.9, .1);
       // 精英抵抗击退
       if (this.kbRes < .35) this.vx *= .5;
       // 每次被击中都要溅血（溅血 / 火花 / 伤害数字 / 顿帧 / 震屏 / 音效）

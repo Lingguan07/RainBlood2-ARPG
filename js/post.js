@@ -204,16 +204,7 @@
         ctx.drawImage(gf, 0, 0, W, H);
         ctx.restore();
       }
-      // 5) 血色氛围（血雾）
-      if (RB.Fx.bloodMist > .01) {
-        ctx.save();
-        ctx.globalCompositeOperation = 'multiply';
-        ctx.globalAlpha = Math.min(.5, RB.Fx.bloodMist * .28);
-        ctx.fillStyle = '#5a0810';
-        ctx.fillRect(0, 0, W, H);
-        ctx.restore();
-      }
-      // 6) 白/红闪
+      // 5) 白/红闪
       if (RB.Fx.flash > .01) {
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
